@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Foodie Fanatix</title> 
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link rel="stylesheet" href="custom.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+
+    <body>
+        <div class="d-flex flex-column align-items-center p-3 bg-white border-bottom box-shadow fixed-top">
+            <nav>
+                <a id="getLatest" class="p-2 text-dark" href="#">Latest</a>
+                <a id="getAll" class="p-2 text-dark active" href="#">All</a>
+                <a id="getPopular" class="p-2 text-dark" href="#">Popular</a>
+            </nav>
+        </div>
+
+        <div class="blog-header mx-auto text-center">
+            <img src="img/a logo for foodie fanatix.png" width="100"/>
+            <h1>Foodie Fanatix</h1>
+            <p>Savor the World, One Bite at a Time!</p>
+        </div>
+
+        <div class="row container mx-auto">
+            <div class="column" id="posts">
+            </div>
+        </div>
+
+        <script src="JS/jquery-3.7.1/jquery-3.7.1.js"></script>
+        <script src="JS/bootstrap-5.3.3-dist/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
+
+        <script>
+            const posts = [
+                {
+                    title: "Alfredo Pasta",
+                    description: "A creamy Alfredo pasta dish with mushrooms.",
+                    time: "5 minutes ago",
+                    image: "Alfredo pasta.webp",
+                    likes: 12
+                },
+                {
+                    title: "Beef Stew",
+                    description: "Perfectly cooked beef stew with some Guinness stout.",
+                    time: "7 minutes ago",
+                    image: "Beef stew.webp",
+                    likes: 18
+                },
+                {
+                    title: "Sloppy Joe",
+                    description: "A hearty Sloppy Joe made with ground beef and special sauce.",
+                    time: "10 minutes ago",
+                    image: "Sloppy Joe.jpg",
+                    likes: 25
+                },
+                {
+                    title: "Caramel Apple Cheesecake",
+                    description: "Indulge in the heavenly combination of rich, creamy cheesecake, luscious caramel, and the crisp sweetness of fresh apples. This Caramel Apple Cheesecake is the perfect treat for any occasion, capturing the essence of autumn in every bite. Whether you're enjoying it with friends and family or savoring a moment of bliss all to yourself, this dessert is sure to delight your taste buds and warm your heart.",
+                    time: "12 minutes ago",
+                    image: "Caramel apple cheesecake.webp",
+                    likes: 30
+                },
+                {
+                    title: "Grilled Chicken Breasts",
+                    description: "Perfectly grilled chicken breasts with a smokey flavor.",
+                    time: "30 minutes ago",
+                    image: "Grilled Chicken Breasts.webp",
+                    likes: 8
+                },
+                {
+                    title: "Ice Cream Cake",
+                    description: "A sweet ice cream cake topped with chocolate chips.",
+                    time: "1 hour ago",
+                    image: "Ice Cream Cake.webp",
+                    likes: 15
+                },
+                {
+                    title: "Chocolate Chip",
+                    description: "Classic chocolate chip cookies that are soft and chewy.",
+                    time: "1 hour ago",
+                    image: "Chocolate chip.webp",
+                    likes: 22
+                },
+            ];
+
+            function displayPosts(filteredPosts) {
+                let output = "";
+
+                filteredPosts.forEach(post => {
+                    output += `
+                        <div class="card mb-4 box-shadow">
+                            <div class="card-header">
+                                <h4 class="my-0 font-weight-normal">${post.title}</h4>
+                            </div>
+                            <div class="card-body">
+                                <img src="img/${post.image}" class="card-img-top" alt="${post.title}"/>
+                                <p class="card-text">${post.description}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-lg btn-link"><i class="far fa-heart"></i></button>
+                                        <button type="button" class="btn btn-lg btn-link"><i class="far fa-comment"></i></button>
+                                        <button type="button" class="btn btn-lg btn-link"><i class="far fa-retweet"></i></button>
+                                    </div>
+                                    <small class="text-muted">${post.time}</small>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                document.getElementById("posts").innerHTML = output;
+            }
+            displayPosts(posts);
+
+            
+            document.getElementById("getAll").addEventListener('click', function() {
+                setActiveLink("getAll");
+                displayPosts(posts);
+            });
+
+            document.getElementById("getLatest").addEventListener('click', function() {
+                setActiveLink("getLatest");
+                const latestPosts = [...posts].sort((a, b) => new Date(b.time) - new Date(a.time));
+                displayPosts(latestPosts);
+            });
+
+            document.getElementById("getPopular").addEventListener('click', function() {
+                setActiveLink("getPopular");
+                const popularPosts = [...posts].sort((a, b) => b.likes - a.likes);
+                displayPosts(popularPosts);
+            });
+
+            function setActiveLink(id) {
+                document.getElementById("getAll").classList.remove("active");
+                document.getElementById("getPopular").classList.remove("active");
+                document.getElementById("getLatest").classList.remove("active");
+
+                document.getElementById(id).classList.add("active");
+            }
+        </script>
+    </body>
+</html>
